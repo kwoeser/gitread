@@ -1,0 +1,22 @@
+# Virtual environment
+venv/
+env/
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Distribution / packaging
+*.egg-info/
+dist/
+build/
+
+# Environment variables and secret files
+.env
+config.py
+
+# Logs and temporary files
+*.log
+tmp/
+
