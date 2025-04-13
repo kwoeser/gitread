@@ -18,18 +18,6 @@ CORS(app)
 latest_readme = None
 
 # needed helper function to remove markdown at start of file
-# def clean_readme(text):
-#     # Remove a leading code fence if it exists
-#     if text.startswith("```markdown"):
-#         text = text[len("```markdown"):].lstrip()
-#     elif text.startswith("```"):
-#         text = text[len("```"):].lstrip()
-    
-#     # Remove trailing code fence if it exists
-#     if text.endswith("```"):
-#         text = text[:-3].rstrip()
-#     return text
-
 def clean_readme(text):
     # Split the text into lines
     lines = text.splitlines()

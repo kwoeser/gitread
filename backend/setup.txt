@@ -16,7 +16,7 @@ pip freeze > requirements.txt
 curl -X POST http://localhost:5000/generate_readme_from_repo \
      -H "Content-Type: application/json" \
      -d '{
-           "repo_url": "https://github.com/owner/repo"
+           "repo_url": "https://github.com/kwoeser/PersonalWebsite"
          }'
 
 
