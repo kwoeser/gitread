@@ -15,7 +15,6 @@ def generate_readme_with_gemini(prompt):
             "parts": [{"text": prompt}]
         }]
     }
-    # Append the API key as a query parameter.
     url = f"{GEMINI_API_URL}?key={GEMINI_API_KEY}"
     headers = {"Content-Type": "application/json"}
     
@@ -24,10 +23,25 @@ def generate_readme_with_gemini(prompt):
         raise Exception(f"Gemini API error: {response.text}")
     
     result = response.json()
-    # Based on your debug output, the generated text is nested as follows:
+    print("Full Gemini Response:", result)  # Debug print
+
+    # Attempt to extract the generated text
     candidates = result.get("candidates")
     if candidates and len(candidates) > 0:
-        generated_text = candidates[0].get("content", {}).get("parts", [{}])[0].get("text")
+        candidate = candidates[0]
+        # Log candidate to inspect its structure
+        print("Candidate extracted:", candidate)
+        content = candidate.get("content", {})
+        parts = content.get("parts", [])
+        if parts and len(parts) > 0:
+            generated_text = parts[0].get("text")
+        else:
+            generated_text = None
     else:
         generated_text = None
+
+    if not generated_text:
+        # Fallback message if extraction failed
+        generated_text = "No output returned from Gemini API."
     return generated_text
+

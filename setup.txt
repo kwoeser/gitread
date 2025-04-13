@@ -10,3 +10,14 @@ source venv/bin/activate
 pip freeze > requirements.txt
 
 
+
+
+# TESTING ENDPOINTS
+curl -X POST http://localhost:5000/generate_readme_from_repo \
+     -H "Content-Type: application/json" \
+     -d '{
+           "repo_url": "https://github.com/owner/repo"
+         }'
+
+
+curl -OJ http://localhost:5000/download_readme
