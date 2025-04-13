@@ -1,0 +1,134 @@
+```markdown
+# PersonalWebsite
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+## Overview
+
+This repository contains the source code for my personal website. This website showcases my skills, projects, and contact information. It's built using React and utilizes a variety of libraries for features like animations, routing, and data fetching.
+
+**Key Features:**
+
+*   Modern and responsive design.
+*   Project showcase with detailed descriptions.
+*   Contact form integrated with email services.
+*   Blog/Articles section (potentially pulling data from RSS feeds or other sources).
+
+**Primary Language:** JavaScript
+
+**Topics:** React, Portfolio, Personal Website, Web Development
+
+## Installation
+
+Follow these steps to set up the development environment:
+
+1.  **Clone the repository:**
+
+    ```bash
+    git clone https://github.com/[your-username]/PersonalWebsite.git
+    cd PersonalWebsite
+    ```
+
+2.  **Install dependencies:**
+
+    ```bash
+    npm install  # or yarn install or pnpm install
+    ```
+
+3.  **Environment Variables:**
+
+    Some features of this website might rely on environment variables.  Create a `.env` file in the root directory of the project and add any necessary environment variables.  For example, if you're using EmailJS for the contact form, you'll need to add your service ID, template ID, and user ID:
+
+    ```
+    EMAILJS_SERVICE_ID=your_service_id
+    EMAILJS_TEMPLATE_ID=your_template_id
+    EMAILJS_PUBLIC_KEY=your_public_key
+    ```
+
+    **Note:**  Never commit your `.env` file to the repository.  Make sure to add it to your `.gitignore` file.
+
+## Usage
+
+### Development
+
+To start the development server:
+
+```bash
+npm run dev  # or yarn dev or pnpm dev
+```
+
+This command will typically start the server at `http://localhost:5173/` (or a similar port).  The exact address will be printed in the console.
+
+### Building for Production
+
+To build the website for production:
+
+```bash
+npm run build  # or yarn build or pnpm build
+```
+
+This command will create a `dist` directory containing the optimized production build of your website.
+
+### Linting
+
+To check the code for stylistic issues and potential errors:
+
+```bash
+npm run lint  # or yarn lint or pnpm lint
+```
+
+## Dependencies
+
+The following dependencies are used in this project:
+
+**Dependencies:**
+
+*   `@emailjs/browser`:  For sending emails through EmailJS.
+*   `axios`: For making HTTP requests.
+*   `cheerio`: For parsing HTML (used for web scraping or RSS parsing, potentially).
+*   `cors`: For enabling Cross-Origin Resource Sharing (CORS).  Useful if your API and front-end are on different domains.
+*   `csv-parser`: For parsing CSV data.
+*   `express`:  A minimal and flexible Node.js web application framework (potentially used for a back-end API).
+*   `framer-motion`: For creating animations and transitions.
+*   `lucide-react`:  A collection of beautiful and consistent icons for React.
+*   `node-fetch`:  For making HTTP requests in Node.js (alternative to `axios`).
+*   `react`:  The core React library.
+*   `react-dom`:  For rendering React components in the DOM.
+*   `react-router-dom`:  For handling routing in the React application.
+*   `rss-parser`:  For parsing RSS feeds (likely used to display blog posts or news).
+*    `esbuild`: For fast builds (likely configured within Vite)
+
+**Development Dependencies:**
+
+*   `@eslint/js`: A basic ESLint configuration.
+*   `@types/react`:  TypeScript definitions for React.
+*   `@types/react-dom`: TypeScript definitions for React DOM.
+*   `@vitejs/plugin-react`:  A Vite plugin for React projects.
+*   `eslint`:  A JavaScript linting tool.
+*   `eslint-plugin-react`:  ESLint rules for React.
+*   `eslint-plugin-react-hooks`:  ESLint rules for React hooks.
+*   `eslint-plugin-react-refresh`:  ESLint rules for preventing common React refresh issues.
+*   `globals`:  Provides a way to define global variables for ESLint.
+*   `vite`:  A fast and lightweight build tool.
+
+## Contributing
+
+Contributions are welcome!  Here's how you can contribute:
+
+1.  **Fork the repository.**
+2.  **Create a new branch** for your feature or bug fix.
+3.  **Make your changes** and commit them with descriptive commit messages.
+4.  **Push your branch** to your forked repository.
+5.  **Create a pull request** to the main branch of this repository.
+
+Please follow these guidelines:
+
+*   Write clean, well-documented code.
+*   Follow the existing code style.
+*   Write tests for new features or bug fixes.
+*   Keep pull requests focused and concise.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+```
