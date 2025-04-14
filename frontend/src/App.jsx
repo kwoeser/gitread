@@ -50,9 +50,18 @@ function App() {
           .catch(() => setIsConnected(false));
       }
     };
-
     document.addEventListener('visibilitychange', handleVisibilityChange);
     return () => document.removeEventListener('visibilitychange', handleVisibilityChange);
+  }, []);
+
+  // New: Re-check auth status 1 second after mount (to catch delayed session updates)
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      axios.get(`${API_URL}/auth/status`)
+        .then(response => setIsConnected(response.data.connected))
+        .catch(() => setIsConnected(false));
+    }, 1000);
+    return () => clearTimeout(timer);
   }, []);
 
   // Fetch repositories only if connected.
