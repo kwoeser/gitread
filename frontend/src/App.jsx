@@ -80,7 +80,7 @@ function App() {
       <h1>GitHub README Generator</h1>
       <p>Automatically generate detailed template README files based on your repos.</p>
       {!isConnected ? (
-        <button onClick={handleLogin}>Connect with GitHub</button>
+        <button onClick={handleLogin}>Connect to GitHub</button>
       ) : (
         <button onClick={handleLogout}>Disconnect from GitHub</button>
       )}
@@ -146,7 +146,7 @@ function App() {
                 </div>
                 <p className="regenerate-info">
                   If you don't like the current rendition of the README, click the "Generate README" again.
-                  <br className='center'></br>Also will most likely need to change some specifics about the README.
+                  <br></br>Also will most likely need to change some specifics about the README.
                 </p>
                 <div className="markdown-container">
                   <ReactMarkdown rehypePlugins={[rehypeRaw]}>

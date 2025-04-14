@@ -1,11 +1,13 @@
 /* Global Styles */
 body {
   font-family: 'Arial', sans-serif;
-  background-color: #f7f9fc;
+  background-color: #f7f9fcfb;
   margin: 0;
   padding: 0;
   color: #333;
 }
+
+
 
 .container {
   max-width: 1200px; /* increased for more space */
