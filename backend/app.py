@@ -167,7 +167,8 @@ def login_github():
 @app.route('/logout')
 def logout():
     session.clear()
-    response = redirect("https://gitread-five.vercel.app/")  # Redirect to your frontend login page
+    # Redirect to your frontend login page
+    response = redirect("https://gitread-five.vercel.app/")  
     response.set_cookie(app.config.get("SESSION_COOKIE_NAME", "session"), '', expires=0)
     return response
 
