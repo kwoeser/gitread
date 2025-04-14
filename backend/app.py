@@ -12,18 +12,22 @@ from utils.ai_utils import generate_readme_with_gemini
 # Load environment variables
 load_dotenv()
 
+# Only set insecure transport in development
+if os.getenv("FLASK_ENV", "development") != "production":
+    os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
 
 app = Flask(__name__)
 app.secret_key = os.getenv("FLASK_SECRET_KEY", "supersekrit")
-CORS(app)
 
+# Explicitly set the session cookie name to fix the AttributeError
+app.config["SESSION_COOKIE_NAME"] = "session"
+app.session_cookie_name = app.config["SESSION_COOKIE_NAME"]
 
+# Set up CORS conditionally
 if os.getenv("FLASK_ENV", "development") == "production":
-    # Replace with your actual frontend URL
     CORS(app, supports_credentials=True, origins=['https://gitread-five.vercel.app'])
 else:
     CORS(app)
-
 
 # Configure Flask-Session to use filesystem-based sessions with an absolute path
 session_dir = os.path.abspath("./.flask_session/")
@@ -32,16 +36,20 @@ if not os.path.exists(session_dir):
 
 app.config["SESSION_TYPE"] = "filesystem"
 app.config["SESSION_FILE_DIR"] = session_dir
-app.config["SESSION_COOKIE_SECURE"] = True
+if os.getenv("FLASK_ENV", "development") == "production":
+    app.config["SESSION_COOKIE_SECURE"] = True
+else:
+    app.config["SESSION_COOKIE_SECURE"] = False
 app.config["SESSION_COOKIE_SAMESITE"] = "Lax"
 app.config["SESSION_COOKIE_PATH"] = '/'
 app.config["SESSION_PERMANENT"] = False
 Session(app)
 
-# Log session contents for debugging
+# Log session contents for debugging (only in non-production)
 @app.before_request
 def log_session():
-    print("Session contents:", dict(session))
+    if os.getenv("FLASK_ENV", "development") != "production":
+        print("Session contents:", dict(session))
 
 @app.after_request
 def add_cors_headers(response):
@@ -170,7 +178,6 @@ def post_auth():
         if resp.ok:
             user_info = resp.json()
             print("Logged in as:", user_info["login"])
-        # Redirect to your frontend running on port 5173
         return redirect("https://gitread-five.vercel.app/")
     else:
         return redirect(url_for("login_github"))
