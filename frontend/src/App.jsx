@@ -31,6 +31,7 @@ function App() {
     addEmojis: false,
   });
 
+  // Changing to deployment
   // Check connection status on mount.
   useEffect(() => {
     axios.get('http://localhost:5000/auth/status')
