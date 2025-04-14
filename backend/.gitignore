@@ -20,3 +20,7 @@ config.py
 *.log
 tmp/
 
+# Flask session files
+.flask_session/
+
+
