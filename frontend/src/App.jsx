@@ -110,14 +110,6 @@ function App() {
     <div className="container">
       <h1>GitHub README Generator</h1>
       <p>Automatically generate detailed template README files based on your repos.</p>
-      
-      {/* Debug: Display current auth status and a refresh button */}
-      <div style={{ marginBottom: '1rem' }}>
-        <strong>Authenticated:</strong> {isConnected.toString()}
-        <button onClick={checkAuthStatus} style={{ marginLeft: '1rem' }}>
-          Refresh Auth
-        </button>
-      </div>
 
       {!isConnected ? (
         <button onClick={handleLogin}>Connect to GitHub</button>
