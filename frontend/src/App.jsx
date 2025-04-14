@@ -8,8 +8,8 @@ import './index.css';
 
 axios.defaults.withCredentials = true;
 
-// Use the VITE_API_URL environment variable or fallback to localhost.
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+// Hard-coded API URL
+const API_URL = "https://gitread.onrender.com";
 
 const fetchRepos = async () => {
   const { data } = await axios.get(`${API_URL}/repos`);

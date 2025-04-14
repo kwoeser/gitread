@@ -1,7 +1,7 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
-const API_URL  = "https://gitread.onrender.com/"
+const API_URL = "https://gitread.onrender.com/"
 
 export default defineConfig({
   plugins: [react()],
