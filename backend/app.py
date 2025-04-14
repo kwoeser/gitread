@@ -12,12 +12,18 @@ from utils.ai_utils import generate_readme_with_gemini
 # Load environment variables
 load_dotenv()
 
-# Ensure OAuth works over HTTP in development
-os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
 
 app = Flask(__name__)
 app.secret_key = os.getenv("FLASK_SECRET_KEY", "supersekrit")
 CORS(app)
+
+
+if os.getenv("FLASK_ENV", "development") == "production":
+    # Replace with your actual frontend URL
+    CORS(app, supports_credentials=True, origins=['https://gitread-five.vercel.app'])
+else:
+    CORS(app)
+
 
 # Configure Flask-Session to use filesystem-based sessions with an absolute path
 session_dir = os.path.abspath("./.flask_session/")
@@ -26,7 +32,7 @@ if not os.path.exists(session_dir):
 
 app.config["SESSION_TYPE"] = "filesystem"
 app.config["SESSION_FILE_DIR"] = session_dir
-app.config["SESSION_COOKIE_SECURE"] = False  # Not using HTTPS in development
+app.config["SESSION_COOKIE_SECURE"] = True
 app.config["SESSION_COOKIE_SAMESITE"] = "Lax"
 app.config["SESSION_COOKIE_PATH"] = '/'
 app.config["SESSION_PERMANENT"] = False
