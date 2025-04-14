@@ -3,7 +3,10 @@ from flask import Flask, request, jsonify, send_file, make_response, redirect, u
 from flask_cors import CORS
 from dotenv import load_dotenv
 from io import BytesIO
-from flask_session import Session  # Import Flask-Session
+from flask_session import Session 
+
+# Register GitHub OAuth blueprint using Flask-Dance
+from flask_dance.contrib.github import make_github_blueprint, github
 
 # Import utilities from the utils package
 from utils.github_utils import get_repo_data, construct_prompt
@@ -56,8 +59,7 @@ def add_cors_headers(response):
     response.headers.add("Access-Control-Allow-Credentials", "true")
     return response
 
-# Register GitHub OAuth blueprint using Flask-Dance
-from flask_dance.contrib.github import make_github_blueprint, github
+
 github_bp = make_github_blueprint(
     client_id=os.getenv("GITHUB_OAUTH_CLIENT_ID"),
     client_secret=os.getenv("GITHUB_OAUTH_CLIENT_SECRET"),

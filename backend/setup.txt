@@ -21,3 +21,12 @@ curl -X POST http://localhost:5000/generate_readme_from_repo \
 
 
 curl -OJ http://localhost:5000/download_readme
+
+
+
+
+# for github oauth
+https://github.com/settings/apps
+
+homepage: http://localhost:5000/
+callback url: http://localhost:5000/github_login/github/authorized
