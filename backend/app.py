@@ -22,7 +22,7 @@ if os.getenv("FLASK_ENV", "development") != "production":
 app = Flask(__name__)
 app.secret_key = os.getenv("FLASK_SECRET_KEY", "supersekrit")
 
-# Explicitly set the session cookie name to fix the AttributeError
+# Explicitly set the session cookie name
 app.config["SESSION_COOKIE_NAME"] = "session"
 app.session_cookie_name = app.config["SESSION_COOKIE_NAME"]
 
@@ -41,8 +41,8 @@ app.config["SESSION_TYPE"] = "filesystem"
 app.config["SESSION_FILE_DIR"] = session_dir
 if os.getenv("FLASK_ENV", "development") == "production":
     app.config["SESSION_COOKIE_SECURE"] = True
-    # Allow cookies to be sent cross-site (for the Vercel frontend)
     app.config["SESSION_COOKIE_SAMESITE"] = "None"
+    app.config["SESSION_COOKIE_DOMAIN"] = "gitread.onrender.com"
 else:
     app.config["SESSION_COOKIE_SECURE"] = False
     app.config["SESSION_COOKIE_SAMESITE"] = "Lax"
@@ -50,22 +50,18 @@ app.config["SESSION_COOKIE_PATH"] = '/'
 app.config["SESSION_PERMANENT"] = False
 Session(app)
 
-# Log session contents for debugging (only in non-production)
+# (Removed the after_request block that was causing duplicate header)
+
 @app.before_request
 def log_session():
     if os.getenv("FLASK_ENV", "development") != "production":
         print("Session contents:", dict(session))
 
-@app.after_request
-def add_cors_headers(response):
-    response.headers.add("Access-Control-Allow-Credentials", "true")
-    return response
-
 github_bp = make_github_blueprint(
     client_id=os.getenv("GITHUB_OAUTH_CLIENT_ID"),
     client_secret=os.getenv("GITHUB_OAUTH_CLIENT_SECRET"),
     scope="repo",
-    redirect_to="post_auth"  # Ensures callback goes to /post_auth
+    redirect_to="post_auth"
 )
 app.register_blueprint(github_bp, url_prefix="/github_login")
 
