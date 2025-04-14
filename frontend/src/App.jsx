@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import ReactMarkdown from 'react-markdown';
-import rehypeRaw from 'rehype-raw'; // enables raw HTML in markdown
+import rehypeRaw from 'rehype-raw'; 
 import CustomizeReadme from './CustomizeReadme';
 import './index.css';
 
@@ -78,7 +78,7 @@ function App() {
   return (
     <div className="container">
       <h1>GitHub README Generator</h1>
-      <p>Automatically generate detailed README files based on your repos.</p>
+      <p>Automatically generate detailed template README files based on your repos.</p>
       {!isConnected ? (
         <button onClick={handleLogin}>Connect with GitHub</button>
       ) : (
@@ -146,6 +146,7 @@ function App() {
                 </div>
                 <p className="regenerate-info">
                   If you don't like the current rendition of the README, click the "Generate README" again.
+                  <br className='center'></br>Also will most likely need to change some specifics about the README.
                 </p>
                 <div className="markdown-container">
                   <ReactMarkdown rehypePlugins={[rehypeRaw]}>
