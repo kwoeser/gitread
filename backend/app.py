@@ -42,7 +42,6 @@ def add_cors_headers(response):
     response.headers.add("Access-Control-Allow-Credentials", "true")
     return response
 
-
 # Register GitHub OAuth blueprint using Flask-Dance
 from flask_dance.contrib.github import make_github_blueprint, github
 github_bp = make_github_blueprint(
@@ -77,9 +76,14 @@ def generate_readme_from_repo():
         return jsonify({"error": "Missing repo_url in request data"}), 400
 
     repo_url = data.get("repo_url")
+    # Extract custom settings (if provided)
+    custom_sections = data.get("sections", {})
+    custom_styling = data.get("styling", {})
+
     try:
         repo_data = get_repo_data(repo_url)
-        prompt = construct_prompt(repo_data)
+        # Pass custom settings to the prompt constructor
+        prompt = construct_prompt(repo_data, custom_sections, custom_styling)
         generated_readme = generate_readme_with_gemini(prompt)
         generated_readme = clean_readme(generated_readme)
         if not generated_readme:
@@ -90,7 +94,7 @@ def generate_readme_from_repo():
         print(latest_readme)
     except Exception as e:
         return jsonify({"error": str(e)}), 500
-    
+
     return jsonify({"README": generated_readme})
 
 # Endpoint to download the generated README.
@@ -145,16 +149,13 @@ def repos():
 def login_github():
     return redirect(url_for("github.login"))
 
-# Logout endpoint clears the session
+# Logout endpoint clears the session and cookie
 @app.route('/logout')
 def logout():
     session.clear()
     response = redirect("http://localhost:5173")  # Redirect to your frontend login page
     response.set_cookie(app.config.get("SESSION_COOKIE_NAME", "session"), '', expires=0)
-
     return response
-
-
 
 @app.route('/post_auth')
 def post_auth():

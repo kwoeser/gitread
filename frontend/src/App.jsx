@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import ReactMarkdown from 'react-markdown';
+import rehypeRaw from 'rehype-raw'; // to enable raw HTML in markdown
 import CustomizeReadme from './CustomizeReadme';
 import './index.css';
 
@@ -18,7 +19,7 @@ function App() {
   const [readme, setReadme] = useState('');
   const [loadingGenerate, setLoadingGenerate] = useState(false);
 
-  // State for customizing the README
+  // State for custom settings
   const [sections, setSections] = useState({
     overview: true,
     tableOfContents: true,
@@ -34,9 +35,7 @@ function App() {
   // Check connection status on mount.
   useEffect(() => {
     axios.get('http://localhost:5000/auth/status')
-      .then(response => {
-        setIsConnected(response.data.connected);
-      })
+      .then(response => setIsConnected(response.data.connected))
       .catch(() => setIsConnected(false));
   }, []);
 
@@ -47,28 +46,22 @@ function App() {
     enabled: isConnected,
   });
 
-  // Initiates the GitHub OAuth flow.
   const handleLogin = () => {
     window.location.href = 'http://localhost:5000/login/github';
   };
 
-  // Logs out the user.
   const handleLogout = () => {
     window.location.href = 'http://localhost:5000/logout';
   };
 
   const handleGenerateReadme = async () => {
     if (!selectedRepo) return;
-
-    // For demonstration, just logging the user’s choices:
-    console.log('Selected sections:', sections);
-    console.log('Styling options:', styling);
-
+    console.log('Custom sections:', sections);
+    console.log('Custom styling:', styling);
     setLoadingGenerate(true);
     try {
       const response = await axios.post('http://localhost:5000/generate_readme_from_repo', {
         repo_url: selectedRepo.html_url,
-        // Optionally include sections/styling in your request body:
         sections,
         styling,
       });
@@ -93,7 +86,7 @@ function App() {
 
       {isConnected && (
         <>
-          {/* The new customize panel */}
+          {/* Customization Panel */}
           <CustomizeReadme
             sections={sections}
             setSections={setSections}
@@ -126,7 +119,7 @@ function App() {
           )}
 
           {selectedRepo && (
-            <div>
+            <div className="selected-repo">
               <h2>Selected Repository: {selectedRepo.full_name}</h2>
               <button onClick={handleGenerateReadme} disabled={loadingGenerate}>
                 {loadingGenerate ? 'Generating README...' : 'Generate README'}
@@ -145,7 +138,9 @@ function App() {
             </a>
           </div>
           <div className="markdown-container">
-            <ReactMarkdown>{readme}</ReactMarkdown>
+            <ReactMarkdown rehypePlugins={[rehypeRaw]}>
+              {readme}
+            </ReactMarkdown>
           </div>
         </div>
       )}

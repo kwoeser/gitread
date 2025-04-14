@@ -44,24 +44,41 @@ def get_repo_data(repo_url):
 
     return repo_data
 
-def construct_prompt(repo_data):
-    prompt = "Generate a detailed README for a GitHub repository in Markdown format. In the 'Built With' section, please include inline badges for the primary technologies used. Each badge should be an image link (using Markdown) that loads the icon from a service like shields.io. Do not display the technology name as extra text—only the icon image should appear, as the icon itself includes the name. For example, output something like: Built With: ![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoWidth=60) ![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=node.js&logoWidth=60) ![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoWidth=60) Ensure that these badges appear inline with no additional text. Do not enclose the entire output in code fences.:\n\n"
+def construct_prompt(repo_data, sections=None, styling=None):
+    # Basic repository info
+    prompt = "Generate a detailed README for a GitHub repository in Markdown format. please include inline badges for the primary technologies used. Each badge should be an image link (using Markdown) that loads the icon from a service like shields.io. Do not display the technology name as extra text—only the icon image should appear, as the icon itself includes the name. For example, output something like: Built With: ![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoWidth=60) ![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=node.js&logoWidth=60) ![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoWidth=60) Ensure that these badges appear inline with no additional text.\n\n"
+    # prompt = "Generate a detailed README for a GitHub repository in Markdown format. In the 'Built With' section, please include inline badges for the primary technologies used. Each badge should be an image link (using Markdown) that loads the icon from a service like shields.io. Do not display the technology name as extra text—only the icon image should appear, as the icon itself includes the name. For example, output something like: Built With: ![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoWidth=60) ![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=node.js&logoWidth=60) ![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoWidth=60) Ensure that these badges appear inline with no additional text. Do not enclose the entire output in code fences.:\n\n"
     prompt += f"Name: {repo_data.get('name')}\n"
     prompt += f"Description: {repo_data.get('description')}\n"
     prompt += f"Primary Language: {repo_data.get('language')}\n"
     topics = repo_data.get('topics') or []
     prompt += f"Topics: {', '.join(topics)}\n\n"
-    
+
     owner = repo_data.get("owner")
     repo_name = repo_data.get("repo_name")
     clone_url = f"https://github.com/{owner}/{repo_name}.git"
     prompt += f"Clone the repository using:\n\n```bash\ngit clone {clone_url}\n```\n\n"
-    
+
     if repo_data.get("requirements"):
         prompt += f"Dependencies (from requirements.txt):\n{repo_data.get('requirements')}\n\n"
     if repo_data.get("package_json"):
         prompt += f"Dependencies (from package.json):\n{repo_data.get('package_json')}\n\n"
-    
+
+    # Add custom sections if provided
+    if sections:
+        prompt += "Include the following sections in the README:\n"
+        for section, include in sections.items():
+            if include:
+                prompt += f"- {section}\n"
+        prompt += "\n"
+
+    # Add custom styling instructions if provided
+    if styling:
+        prompt += "Apply the following styling options:\n"
+        for option, value in styling.items():
+            prompt += f"- {option}: {value}\n"
+        prompt += "\n"
+
     prompt += (
         "Please generate a README in Markdown format including sections such as "
         "Overview, Installation, Usage, Contributing, and License. Do not enclose the entire output in code fences."

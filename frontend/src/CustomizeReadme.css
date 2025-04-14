@@ -3,23 +3,23 @@
     border: 1px solid #e2e8f0;
     border-radius: 8px;
     padding: 20px;
-    margin: 20px auto;
-    max-width: 300px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    margin: 20px 0;
+    text-align: left;
   }
   
   .customize-panel h2 {
     margin-top: 0;
   }
   
-  .panel-subtitle {
-    margin: 16px 0 8px;
-    font-weight: 600;
+  .customize-section,
+  .customize-styling {
+    margin-bottom: 16px;
   }
   
-  .sections-list,
-  .styling-options {
-    margin-bottom: 16px;
+  .customize-section p,
+  .customize-styling p {
+    font-weight: bold;
+    margin-bottom: 8px;
   }
   
   .option-group {
@@ -27,6 +27,7 @@
   }
   
   .option-group label {
-    margin-right: 12px;
+    display: block;
+    margin-bottom: 4px;
   }
   

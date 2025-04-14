@@ -11,41 +11,98 @@ body {
   max-width: 800px;
   margin: 0 auto;
   padding: 20px;
+  text-align: center;
 }
 
 /* Hero Section */
-.hero {
-  background: #4a90e2;
-  color: #fff;
-  padding: 40px;
-  text-align: center;
-  border-radius: 4px;
+.container h1 {
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+}
+
+.container p {
+  font-size: 1.2rem;
   margin-bottom: 20px;
 }
 
-.hero h1 {
-  margin: 0;
-  font-size: 2.5rem;
-}
-
-.hero p {
-  margin: 10px 0 20px;
-  font-size: 1.2rem;
-}
-
-.hero button {
-  background: #fff;
-  color: #4a90e2;
+/* Buttons */
+button {
+  background: #4a90e2;
+  color: #fff;
   border: none;
   padding: 10px 20px;
   font-size: 1rem;
   border-radius: 4px;
   cursor: pointer;
   transition: background 0.3s ease;
+  margin: 10px;
 }
 
-.hero button:hover {
-  background: #f0f0f0;
+button:hover {
+  background: #3b7dc4;
+}
+
+/* Dropdown Container */
+.dropdown-container {
+  margin: 20px 0;
+}
+
+.dropdown-container h2 {
+  margin-bottom: 10px;
+}
+
+.dropdown-container select {
+  width: 100%;
+  padding: 10px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* Selected Repository Section */
+.selected-repo {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* README Section */
+.readme-section {
+  margin-top: 20px;
+  text-align: left;
+}
+
+.readme-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.readme-header h2 {
+  margin: 0;
+}
+
+.markdown-container {
+  background: #fff;
+  padding: 20px;
+  border-radius: 4px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Download Button */
+.download-button {
+  background: #4a90e2;
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  font-size: 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.download-button:hover {
+  background: #3b7dc4;
 }
 
 /* Features Section */
@@ -66,68 +123,6 @@ body {
   list-style-type: disc;
   padding-left: 20px;
 }
-
-/* Repository Section */
-.repos {
-  margin-bottom: 20px;
-}
-
-.dropdown-container {
-  margin: 10px 0;
-}
-
-.dropdown-container select {
-  width: 100%;
-  padding: 10px;
-  font-size: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-
-/* Selected Repository Section */
-.selected-repo {
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-/* README Section */
-.readme-section {
-  margin-top: 20px;
-}
-
-.readme-header {
-  display: flex;
-  align-items: center;     /* Vertically center button and heading */
-  justify-content: space-between; /* Push button to the right, heading to the left */
-  margin-bottom: 10px;
-}
-
-.readme-header h2 {
-  margin: 0; /* Remove default margin so it aligns better with the button */
-}
-
-.markdown-container {
-  background: #fff;
-  padding: 20px;
-  border-radius: 4px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-}
-
-.download-button {
-  background: #4a90e2;
-  color: #fff;
-  border: none;
-  padding: 8px 16px;
-  font-size: 1rem;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background 0.3s ease;
-}
-
-.download-button:hover {
-  background: #3b7dc4;
-}
-
 
 /* Error Message */
 .error {
