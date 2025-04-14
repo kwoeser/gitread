@@ -1,134 +1,78 @@
 import React from 'react';
 import './CustomizeReadme.css';
 
-function CustomizeReadme({
-  sections,
-  setSections,
-  styling,
-  setStyling,
-}) {
-  // Toggle a boolean section (e.g. Overview, Quickstart)
-  const handleToggleSection = (sectionKey) => {
-    setSections((prev) => ({
-      ...prev,
-      [sectionKey]: !prev[sectionKey],
-    }));
+function CustomizeReadme({ sections, setSections, styling, setStyling }) {
+  const toggleSection = (key) => {
+    setSections(prev => ({ ...prev, [key]: !prev[key] }));
   };
 
-  // Toggle a boolean styling option (e.g. generateLogo, addEmojis)
-  const handleToggleStyling = (stylingKey) => {
-    setStyling((prev) => ({
-      ...prev,
-      [stylingKey]: !prev[stylingKey],
-    }));
+  const handleStylingChange = (key, value) => {
+    setStyling(prev => ({ ...prev, [key]: value }));
   };
 
   return (
     <div className="customize-panel">
-      <h2>Customize README</h2>
-      <p className="panel-subtitle">Default Sections</p>
-
-      <div className="sections-list">
-        <label>
-          <input
-            type="checkbox"
-            checked={sections.overview}
-            onChange={() => handleToggleSection('overview')}
-          />
-          Overview
-        </label>
-        <label>
-          <input
-            type="checkbox"
-            checked={sections.tableOfContents}
-            onChange={() => handleToggleSection('tableOfContents')}
-          />
-          Table of Contents
-        </label>
-        <label>
-          <input
-            type="checkbox"
-            checked={sections.quickstart}
-            onChange={() => handleToggleSection('quickstart')}
-          />
-          Quickstart
-        </label>
-      </div>
-
-      <p className="panel-subtitle">Styling</p>
-      <div className="styling-options">
-        <div className="option-group">
-          <label>Header Alignment:</label>
-          <div>
-            <label>
-              <input
-                type="radio"
-                name="headerAlignment"
-                value="left"
-                checked={styling.headerAlignment === 'left'}
-                onChange={(e) =>
-                  setStyling((prev) => ({ ...prev, headerAlignment: e.target.value }))
-                }
-              />
-              Left
-            </label>
-            <label>
-              <input
-                type="radio"
-                name="headerAlignment"
-                value="center"
-                checked={styling.headerAlignment === 'center'}
-                onChange={(e) =>
-                  setStyling((prev) => ({ ...prev, headerAlignment: e.target.value }))
-                }
-              />
-              Center
-            </label>
-            <label>
-              <input
-                type="radio"
-                name="headerAlignment"
-                value="right"
-                checked={styling.headerAlignment === 'right'}
-                onChange={(e) =>
-                  setStyling((prev) => ({ ...prev, headerAlignment: e.target.value }))
-                }
-              />
-              Right
-            </label>
-          </div>
-        </div>
-
-        <div className="option-group">
-          <label>Table of Contents Style:</label>
-          <select
-            value={styling.tableOfContentsStyle}
-            onChange={(e) =>
-              setStyling((prev) => ({ ...prev, tableOfContentsStyle: e.target.value }))
-            }
-          >
-            <option value="bullets">Bullets</option>
-            <option value="numbers">Numbers</option>
-          </select>
-        </div>
-
-        <div className="option-group">
+      <h2>Customize Your README</h2>
+      <div className="customize-section">
+        <p>Extra Sections to include:</p>
+        <div className="checkbox-group">
           <label>
             <input
               type="checkbox"
-              checked={styling.generateLogo}
-              onChange={() => handleToggleStyling('generateLogo')}
+              checked={sections.overview}
+              onChange={() => toggleSection('overview')}
             />
-            Generate Logo
+            Overview
+          </label>
+          <label>
+            <input
+              type="checkbox"
+              checked={sections.tableOfContents}
+              onChange={() => toggleSection('tableOfContents')}
+            />
+            Table of Contents
+          </label>
+          <label>
+            <input
+              type="checkbox"
+              checked={sections.quickstart}
+              onChange={() => toggleSection('quickstart')}
+            />
+            Quickstart
           </label>
         </div>
-
+      </div>
+      <div className="customize-styling">
+        <p>Styling options:</p>
+        <div className="option-group">
+          <label>Header Alignment:</label>
+          <select
+            value={styling.headerAlignment}
+            onChange={(e) => handleStylingChange('headerAlignment', e.target.value)}
+          >
+            <option value="left">Left</option>
+            <option value="center">Center</option>
+            <option value="right">Right</option>
+          </select>
+        </div>
+        {sections.tableOfContents && (
+          <div className="option-group">
+            <label>TOC Style:</label>
+            <select
+              value={styling.tableOfContentsStyle}
+              onChange={(e) => handleStylingChange('tableOfContentsStyle', e.target.value)}
+            >
+              <option value="bullets">Bullets</option>
+              <option value="numbers">Numbers</option>
+            </select>
+          </div>
+        )}
         <div className="option-group">
           <label>
             <input
               type="checkbox"
               checked={styling.addEmojis}
-              onChange={() => handleToggleStyling('addEmojis')}
+              onChange={() => handleStylingChange('addEmojis', !styling.addEmojis)}
             />
             Add Emojis to Headings
           </label>

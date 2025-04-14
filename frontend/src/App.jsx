@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import ReactMarkdown from 'react-markdown';
-import rehypeRaw from 'rehype-raw'; // to enable raw HTML in markdown
+import rehypeRaw from 'rehype-raw'; // enables raw HTML in markdown
 import CustomizeReadme from './CustomizeReadme';
 import './index.css';
 
@@ -28,7 +28,6 @@ function App() {
   const [styling, setStyling] = useState({
     headerAlignment: 'left',
     tableOfContentsStyle: 'bullets',
-    generateLogo: false,
     addEmojis: false,
   });
 
@@ -74,6 +73,8 @@ function App() {
     }
   };
 
+
+
   return (
     <div className="container">
       <h1>GitHub README Generator</h1>
@@ -85,62 +86,75 @@ function App() {
       )}
 
       {isConnected && (
-        <>
-          {/* Customization Panel */}
-          <CustomizeReadme
-            sections={sections}
-            setSections={setSections}
-            styling={styling}
-            setStyling={setStyling}
-          />
-
-          {isLoading && <p>Loading repositories...</p>}
-          {error && <p className="error">Error: {error.message}</p>}
-          {repos && repos.length > 0 && (
-            <div className="dropdown-container">
-              <h2>Select a Repository</h2>
-              <select
-                onChange={(e) => {
-                  const repo = repos.find(r => r.id === Number(e.target.value));
-                  setSelectedRepo(repo);
-                }}
-                defaultValue=""
-              >
-                <option value="" disabled>
-                  -- Select Repository --
-                </option>
-                {repos.map((repo) => (
-                  <option key={repo.id} value={repo.id}>
-                    {repo.full_name}
-                  </option>
-                ))}
-              </select>
-            </div>
-          )}
-
-          {selectedRepo && (
-            <div className="selected-repo">
-              <h2>Selected Repository: {selectedRepo.full_name}</h2>
-              <button onClick={handleGenerateReadme} disabled={loadingGenerate}>
-                {loadingGenerate ? 'Generating README...' : 'Generate README'}
-              </button>
-            </div>
-          )}
-        </>
-      )}
-
-      {readme && (
-        <div className="readme-section">
-          <div className="readme-header">
-            <h2>Generated README</h2>
-            <a href="http://localhost:5000/download_readme" target="_blank" rel="noopener noreferrer">
-              <button className="download-button">Download README</button>
-            </a>
+        <div className="layout">
+          {/* Left Panel: Customization */}
+          <div className="left-panel">
+            <CustomizeReadme
+              sections={sections}
+              setSections={setSections}
+              styling={styling}
+              setStyling={setStyling}
+            />
           </div>
-          <div className="markdown-container">
-            <ReactMarkdown rehypePlugins={[rehypeRaw]}>
-              {readme}
-            </ReactMarkdown>
+
+          {/* Right Panel: Repo Selection and README Preview */}
+          <div className="right-panel">
+            {isLoading && <p>Loading repositories...</p>}
+            {error && <p className="error">Error: {error.message}</p>}
+            {repos && repos.length > 0 && (
+              <div className="repo-selection">
+                <h2>Select a Repository</h2>
+                <select
+                  onChange={(e) => {
+                    const repo = repos.find(r => r.id === Number(e.target.value));
+                    setSelectedRepo(repo);
+                  }}
+                  defaultValue=""
+                >
+                  <option value="" disabled>
+                    -- Select Repository --
+                  </option>
+                  {repos.map((repo) => (
+                    <option key={repo.id} value={repo.id}>
+                      {repo.full_name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            )}
+
+            {selectedRepo && (
+              <div className="generate-section">
+                <h3>Selected Repository: {selectedRepo.full_name}</h3>
+                <button onClick={handleGenerateReadme} disabled={loadingGenerate}>
+                  {loadingGenerate ? 'Generating README...' : 'Generate README'}
+                </button>
+              </div>
+            )}
+
+            {readme && (
+              <div className="readme-section">
+                <div className="readme-header">
+                  <h2>Generated README</h2>
+                  <a
+                    href="http://localhost:5000/download_readme"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <button className="download-button">Download README</button>
+                  </a>
+                </div>
+                <p className="regenerate-info">
+                  If you don't like the current rendition of the README, click the "Generate README" again.
+                </p>
+                <div className="markdown-container">
+                  <ReactMarkdown rehypePlugins={[rehypeRaw]}>
+                    {readme}
+                  </ReactMarkdown>
+                </div>
+              </div>
+            )}
+
           </div>
         </div>
       )}
