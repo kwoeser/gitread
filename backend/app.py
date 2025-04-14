@@ -41,9 +41,11 @@ app.config["SESSION_TYPE"] = "filesystem"
 app.config["SESSION_FILE_DIR"] = session_dir
 if os.getenv("FLASK_ENV", "development") == "production":
     app.config["SESSION_COOKIE_SECURE"] = True
+    # Allow cookies to be sent cross-site (for the Vercel frontend)
+    app.config["SESSION_COOKIE_SAMESITE"] = "None"
 else:
     app.config["SESSION_COOKIE_SECURE"] = False
-app.config["SESSION_COOKIE_SAMESITE"] = "Lax"
+    app.config["SESSION_COOKIE_SAMESITE"] = "Lax"
 app.config["SESSION_COOKIE_PATH"] = '/'
 app.config["SESSION_PERMANENT"] = False
 Session(app)
@@ -58,7 +60,6 @@ def log_session():
 def add_cors_headers(response):
     response.headers.add("Access-Control-Allow-Credentials", "true")
     return response
-
 
 github_bp = make_github_blueprint(
     client_id=os.getenv("GITHUB_OAUTH_CLIENT_ID"),
