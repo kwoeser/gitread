@@ -153,7 +153,7 @@ def login_github():
 @app.route('/logout')
 def logout():
     session.clear()
-    response = redirect("http://localhost:5173")  # Redirect to your frontend login page
+    response = redirect("https://gitread-five.vercel.app/")  # Redirect to your frontend login page
     response.set_cookie(app.config.get("SESSION_COOKIE_NAME", "session"), '', expires=0)
     return response
 
@@ -165,9 +165,9 @@ def post_auth():
             user_info = resp.json()
             print("Logged in as:", user_info["login"])
         # Redirect to your frontend running on port 5173
-        return redirect("http://localhost:5173")
+        return redirect("https://gitread-five.vercel.app/")
     else:
         return redirect(url_for("login_github"))
 
 if __name__ == "__main__":
-    app.run(debug=True, threaded=True)
+    app.run(threaded=True)
