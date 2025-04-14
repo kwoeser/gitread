@@ -34,10 +34,25 @@ function App() {
     addEmojis: false,
   });
 
+  // Check auth status on mount
   useEffect(() => {
     axios.get(`${API_URL}/auth/status`)
       .then(response => setIsConnected(response.data.connected))
       .catch(() => setIsConnected(false));
+  }, []);
+
+  // Re-check auth status when user returns to the tab
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === 'visible') {
+        axios.get(`${API_URL}/auth/status`)
+          .then(response => setIsConnected(response.data.connected))
+          .catch(() => setIsConnected(false));
+      }
+    };
+
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    return () => document.removeEventListener('visibilitychange', handleVisibilityChange);
   }, []);
 
   // Fetch repositories only if connected.
