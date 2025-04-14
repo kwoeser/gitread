@@ -34,32 +34,39 @@ function App() {
     addEmojis: false,
   });
 
+  // Function to check auth status
+  const checkAuthStatus = () => {
+    axios.get(`${API_URL}/auth/status`)
+      .then(response => {
+        console.log("Auth status response:", response.data);
+        setIsConnected(response.data.connected);
+      })
+      .catch(err => {
+        console.error("Auth status error:", err);
+        setIsConnected(false);
+      });
+  };
+
   // Check auth status on mount
   useEffect(() => {
-    axios.get(`${API_URL}/auth/status`)
-      .then(response => setIsConnected(response.data.connected))
-      .catch(() => setIsConnected(false));
+    checkAuthStatus();
   }, []);
 
   // Re-check auth status when user returns to the tab
   useEffect(() => {
     const handleVisibilityChange = () => {
       if (document.visibilityState === 'visible') {
-        axios.get(`${API_URL}/auth/status`)
-          .then(response => setIsConnected(response.data.connected))
-          .catch(() => setIsConnected(false));
+        checkAuthStatus();
       }
     };
     document.addEventListener('visibilitychange', handleVisibilityChange);
     return () => document.removeEventListener('visibilitychange', handleVisibilityChange);
   }, []);
 
-  // New: Re-check auth status 1 second after mount (to catch delayed session updates)
+  // Additional delayed re-check (1 second after mount) in case the OAuth flow completes after the initial check
   useEffect(() => {
     const timer = setTimeout(() => {
-      axios.get(`${API_URL}/auth/status`)
-        .then(response => setIsConnected(response.data.connected))
-        .catch(() => setIsConnected(false));
+      checkAuthStatus();
     }, 1000);
     return () => clearTimeout(timer);
   }, []);
@@ -103,6 +110,15 @@ function App() {
     <div className="container">
       <h1>GitHub README Generator</h1>
       <p>Automatically generate detailed template README files based on your repos.</p>
+      
+      {/* Debug: Display current auth status and a refresh button */}
+      <div style={{ marginBottom: '1rem' }}>
+        <strong>Authenticated:</strong> {isConnected.toString()}
+        <button onClick={checkAuthStatus} style={{ marginLeft: '1rem' }}>
+          Refresh Auth
+        </button>
+      </div>
+
       {!isConnected ? (
         <button onClick={handleLogin}>Connect to GitHub</button>
       ) : (
@@ -125,7 +141,7 @@ function App() {
           <div className="right-panel">
             {isLoading && <p>Loading repositories...</p>}
             {error && <p className="error">Error: {error.message}</p>}
-            {repos && repos.length > 0 && (
+            {repos && repos.length > 0 ? (
               <div className="repo-selection">
                 <h2>Select a Repository</h2>
                 <select
@@ -145,6 +161,8 @@ function App() {
                   ))}
                 </select>
               </div>
+            ) : (
+              <p>No repositories found.</p>
             )}
 
             {selectedRepo && (
@@ -170,7 +188,7 @@ function App() {
                 </div>
                 <p className="regenerate-info">
                   If you don't like the current rendition of the README, click the "Generate README" again.
-                  <br></br>Also will most likely need to change some specifics about the README.
+                  <br />Also will most likely need to change some specifics about the README.
                 </p>
                 <div className="markdown-container">
                   <ReactMarkdown rehypePlugins={[rehypeRaw]}>
