@@ -1,32 +1,34 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
+const API_URL  = "https://gitread.onrender.com/"
+
 export default defineConfig({
   plugins: [react()],
   server: {
     proxy: {
       '/generate_readme_from_repo': {
-        target: 'http://localhost:5000',
+        target: API_URL,
         changeOrigin: true,
       },
       '/download_readme': {
-        target: 'http://localhost:5000',
+        target: API_URL,
         changeOrigin: true,
       },
       '/auth': {
-        target: 'http://localhost:5000',
+        target: API_URL,
         changeOrigin: true,
       },
       '/repos': {
-        target: 'http://localhost:5000',
+        target: API_URL,
         changeOrigin: true,
       },
       '/logout': {
-        target: 'http://localhost:5000',
+        target: API_URL,
         changeOrigin: true,
       },
       '/login': {
-        target: 'http://localhost:5000',
+        target: API_URL,
         changeOrigin: true,
       }
     },

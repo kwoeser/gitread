@@ -8,8 +8,11 @@ import './index.css';
 
 axios.defaults.withCredentials = true;
 
+// Use the VITE_API_URL environment variable or fallback to localhost.
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+
 const fetchRepos = async () => {
-  const { data } = await axios.get('http://localhost:5000/repos');
+  const { data } = await axios.get(`${API_URL}/repos`);
   return data;
 };
 
@@ -31,10 +34,8 @@ function App() {
     addEmojis: false,
   });
 
-  // Changing to deployment
-  // Check connection status on mount.
   useEffect(() => {
-    axios.get('http://localhost:5000/auth/status')
+    axios.get(`${API_URL}/auth/status`)
       .then(response => setIsConnected(response.data.connected))
       .catch(() => setIsConnected(false));
   }, []);
@@ -47,11 +48,11 @@ function App() {
   });
 
   const handleLogin = () => {
-    window.location.href = 'http://localhost:5000/login/github';
+    window.location.href = `${API_URL}/login/github`;
   };
 
   const handleLogout = () => {
-    window.location.href = 'http://localhost:5000/logout';
+    window.location.href = `${API_URL}/logout`;
   };
 
   const handleGenerateReadme = async () => {
@@ -60,7 +61,7 @@ function App() {
     console.log('Custom styling:', styling);
     setLoadingGenerate(true);
     try {
-      const response = await axios.post('http://localhost:5000/generate_readme_from_repo', {
+      const response = await axios.post(`${API_URL}/generate_readme_from_repo`, {
         repo_url: selectedRepo.html_url,
         sections,
         styling,
@@ -73,8 +74,6 @@ function App() {
       setLoadingGenerate(false);
     }
   };
-
-
 
   return (
     <div className="container">
@@ -138,7 +137,7 @@ function App() {
                 <div className="readme-header">
                   <h2>Generated README</h2>
                   <a
-                    href="http://localhost:5000/download_readme"
+                    href={`${API_URL}/download_readme`}
                     target="_blank"
                     rel="noopener noreferrer"
                   >
@@ -156,7 +155,6 @@ function App() {
                 </div>
               </div>
             )}
-
           </div>
         </div>
       )}

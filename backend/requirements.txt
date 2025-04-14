@@ -1,9 +1,11 @@
 Flask==3.1.0
 flask-cors==5.0.1
 Flask-Dance==7.1.0
-Flask-Session==0.4.0    # Use the version you have confirmed works
+Flask-Session==0.4.0    
 python-dotenv==1.1.0
 requests==2.32.3
 PyGithub==2.6.1
 requests-oauthlib==2.0.0
 oauthlib==3.2.0
+gunicorn==20.1.0
+
