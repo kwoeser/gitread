@@ -1,4 +1,3 @@
-/* Global Styles */
 body {
   font-family: 'Arial', sans-serif;
   background-color: #f7f9fcfb;
@@ -8,9 +7,8 @@ body {
 }
 
 
-
 .container {
-  max-width: 1200px; /* increased for more space */
+  max-width: 1200px;
   margin: 0 auto;
   padding: 20px;
   text-align: center;
@@ -46,16 +44,16 @@ button:hover {
 /* Layout: two columns */
 .layout {
   display: flex;
-  align-items: flex-start; /* top aligned */
+  align-items: flex-start; 
   margin-top: 50px;
-  text-align: left; /* override center from container if needed */
+  text-align: left; 
 }
 
 /* Left Panel - Customization Section */
 .left-panel {
   flex: 0 0 300px; 
   margin-right: 40px;
-  background-color: #fff; /* white background */
+  background-color: #fff; 
   border-radius: 8px;
   box-shadow: 0 1px 3px rgba(22, 22, 22, 0.1);
 }
