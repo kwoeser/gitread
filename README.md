@@ -19,6 +19,8 @@ Before you begin, ensure you have the following installed:
 *   Node.js and npm 
 *   A modern web browser (Chrome, Firefox, Safari, Edge)
 
+![gitread](https://github.com/user-attachments/assets/3f226a76-50f6-4ed5-b554-c05b1889aa10)
+
 **Installation**
 
 1.  **Clone the repository:**
