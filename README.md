@@ -1,6 +1,6 @@
 # GitRead 
 
-<strong>This was created using GitRead.</strong>
+<strong>THIS README WAS CREATED WITH GITREAD.</strong>
 
 GitRead is a tool for automatically generating detailed README templates for your GitHub repositories. Built with Python, Flask, and React. 
 
