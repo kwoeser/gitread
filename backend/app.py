@@ -3,16 +3,12 @@ from flask import Flask, request, jsonify, send_file, make_response, redirect, u
 from flask_cors import CORS
 from dotenv import load_dotenv
 from io import BytesIO
-from flask_session import Session  # Import Flask-Session
-
-# Import utilities from the utils package
+from flask_session import Session 
 from utils.github_utils import get_repo_data, construct_prompt
 from utils.ai_utils import generate_readme_with_gemini
 
-# Load environment variables
 load_dotenv()
 
-# Ensure OAuth works over HTTP in development
 os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
 
 app = Flask(__name__)
@@ -114,7 +110,7 @@ def download_readme():
 def health():
     return jsonify({"message": "App is running and health endpoint is good"})
 
-# Endpoint to return auth status.
+
 @app.route('/auth/status')
 def auth_status():
     if 'github_oauth_token' in session:
@@ -144,12 +140,12 @@ def repos():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-# GitHub OAuth login route
+
 @app.route('/login/github')
 def login_github():
     return redirect(url_for("github.login"))
 
-# Logout endpoint clears the session and cookie
+
 @app.route('/logout')
 def logout():
     session.clear()

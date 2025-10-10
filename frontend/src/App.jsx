@@ -20,7 +20,6 @@ function App() {
   const [readme, setReadme] = useState('');
   const [loadingGenerate, setLoadingGenerate] = useState(false);
 
-  // State for custom settings
   const [sections, setSections] = useState({
     overview: true,
     tableOfContents: true,

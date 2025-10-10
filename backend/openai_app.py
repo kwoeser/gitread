@@ -4,14 +4,9 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 from dotenv import load_dotenv
 
-# Load environment variables from the .env file
 load_dotenv()
-
 app = Flask(__name__)
 CORS(app)
-
-# Retrieve the API key from the environment
-
 
 """
 Possible endpoints
